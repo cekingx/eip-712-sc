@@ -20,6 +20,13 @@ async function main() {
   await ticket.deployed();
 
   console.log("Ticket deployed to:", ticket.address);
+
+  const result = await ticket.verify(
+    27,
+    "0x3c1ba41103ad8dfd70d3fb0406f734e112e73e8739e6102c1abcddac5a28c9a1",
+    "0x50a7280025ab20a82da069e84ea7787b3b8bdd3617253e4a65f2ed9a67e2c8e1"
+  );
+  console.log(result);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
