@@ -4,6 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 import { ethers } from "hardhat";
+import { fromRpcSig } from "ethereumjs-util";
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -20,11 +21,15 @@ async function main() {
   await ticket.deployed();
 
   console.log("Ticket deployed to:", ticket.address);
+  console.log("chainid", await ticket.chainId());
 
+  const signature =
+    "0xbac6cad9007afcd56738fe2e90d7c78754c43a127fc4f31aec3082628c5f4573401e96b05bfcc5523af351981da3eea548297b0a4756fc0007f7b32f5aedd2721b";
+  const rsv = fromRpcSig(signature);
   const result = await ticket.verify(
-    27,
-    "0x3c1ba41103ad8dfd70d3fb0406f734e112e73e8739e6102c1abcddac5a28c9a1",
-    "0x50a7280025ab20a82da069e84ea7787b3b8bdd3617253e4a65f2ed9a67e2c8e1"
+    rsv.v,
+    "0x" + rsv.r.toString("hex"),
+    "0x" + rsv.s.toString("hex")
   );
   console.log(result);
 }
