@@ -15,8 +15,8 @@ contract Ticket is EIP712 {
 
   function digest() public view returns (bytes32) {
     bytes32 hashed = _hashTypedDataV4(keccak256(abi.encode(
-      keccak256("CheckIn(uint256 tokenId)"),
-      1
+      keccak256("CheckIn(string event)"),
+      keccak256(bytes("test"))
     )));
 
     return hashed;

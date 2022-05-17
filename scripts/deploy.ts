@@ -24,7 +24,7 @@ async function main() {
   console.log("chainid", await ticket.chainId());
 
   const signature =
-    "0xbac6cad9007afcd56738fe2e90d7c78754c43a127fc4f31aec3082628c5f4573401e96b05bfcc5523af351981da3eea548297b0a4756fc0007f7b32f5aedd2721b";
+    "0xb29b646f267bef76ea1978af21fb8704b9211cffc30a96f44a6f6ba3254672d952b8c1f61fa92c4625976258832bb65a25be3a5d7af10b44cea6f06fbb5d0b3c1c";
   const rsv = fromRpcSig(signature);
   const result = await ticket.verify(
     rsv.v,
