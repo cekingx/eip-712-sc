@@ -10,7 +10,7 @@ contract Verifier is EIP712 {
 
   function verify(address attendee, uint8 v, bytes32 r, bytes32 s) external view returns (address) {
     bytes32 hashed = _hashTypedDataV4(keccak256(abi.encode(
-      keccak256("CheckIn(string event, uint256 tokenId, address attendee)"),
+      keccak256("CheckIn(string event,uint256 tokenId,address attendee)"),
       keccak256(bytes("Eseats")),
       1,
       attendee
