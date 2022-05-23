@@ -1,29 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
-import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
-import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "hardhat/console.sol";
+import "./Verifier.sol";
 
-contract Ticket is EIP712 {
-  constructor(string memory name, string memory version) EIP712(name, version) {}
+contract Ticket {
+  Verifier private verifier;
 
-  function verify(uint8 v, bytes32 r, bytes32 s) external view returns (address) {
-    address signer = ECDSA.recover(digest(), v, r, s);
-    console.log("signer address %s", signer);
-    return signer;
+  constructor(address _verifier) {
+    verifier = Verifier(_verifier);
   }
 
-  function digest() public view returns (bytes32) {
-    bytes32 hashed = _hashTypedDataV4(keccak256(abi.encode(
-      keccak256("CheckIn(string event)"),
-      keccak256(bytes("test"))
-    )));
-
-    return hashed;
-  }
-
-  function chainId() external view returns (uint256) {
-    return block.chainid;
-  }
-
+  function checkIn(uint8 v, bytes32 r, bytes32 s) external view returns(bool) {
+    return msg.sender == verifier.verify(msg.sender, v, r, s);
+  } 
 }
